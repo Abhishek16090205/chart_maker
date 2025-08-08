@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 from typing import Optional
-from app.schemas import ChartConfig
+from schemas import ChartConfig
 
 class BaseChart:
     def __init__(self, config: ChartConfig):

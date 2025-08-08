@@ -1,4 +1,4 @@
-from .schemas import ChartRequest
+from schemas import ChartRequest
 from charts.line_chart import LineChart
 from charts.bar_chart import BarChart
 from charts.pie_chart import PieChart
@@ -11,6 +11,7 @@ from charts.heatmap_chart import HeatmapChart
 from charts.subplots import SubplotChart
 from typing import List
 import plotly.graph_objects as go
+
 
 def create_chart(request: ChartRequest, data: List[dict]) -> go.Figure:
     if request.chart_type == "subplots":
@@ -38,15 +39,13 @@ def create_chart(request: ChartRequest, data: List[dict]) -> go.Figure:
             chart = HeatmapChart(request.config)
         else:
             raise ValueError(f"Unsupported chart type: {request.chart_type}")
-        
-        print("line")
+
         # For single charts, pass traces and data
         return chart.generate(request.traces, data)
 
 
-
-
 from Filters.datafilter import async_apply_filters
+
 
 def filter_data(raw_data, filters):
     return async_apply_filters(raw_data, filters)

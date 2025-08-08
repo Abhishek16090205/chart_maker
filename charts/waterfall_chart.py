@@ -1,6 +1,6 @@
 from typing import List
 import plotly.graph_objects as go
-from app.schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
+from schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
 from charts.base_chart import BaseChart
 
 class WaterfallChart(BaseChart):

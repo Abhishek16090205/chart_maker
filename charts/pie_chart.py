@@ -1,7 +1,7 @@
 from charts.base_chart import BaseChart
 import plotly.graph_objects as go
 from typing import List
-from app.schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
+from schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
 
 class PieChart(BaseChart):
     def __init__(self, config):

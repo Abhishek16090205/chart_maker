@@ -1,6 +1,6 @@
 from typing import List
 import plotly.graph_objects as go
-from app.schemas import Trace, ChartConfig  # Use Trace, not Dataset
+from schemas import Trace, ChartConfig  # Use Trace, not Dataset
 from charts.base_chart import BaseChart
 
 class AreaChart(BaseChart):
