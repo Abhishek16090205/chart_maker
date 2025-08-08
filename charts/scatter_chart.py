@@ -1,6 +1,6 @@
 from typing import List
 import plotly.graph_objects as go
-from app.schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
+from schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
 from charts.base_chart import BaseChart
 
 class ScatterChart(BaseChart):
@@ -74,6 +74,9 @@ class ScatterChart(BaseChart):
                 size=getattr(style, "textfont_size", 12),
                 color=getattr(style, "textfont_color", "#000000")
             )
+            text_values = None
+            if data and isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict) and "text" in data[0]:
+                text_values = [row.get("text") for row in data]
 
             fig.add_trace(go.Scatter(
                 x=x_data,
@@ -82,7 +85,7 @@ class ScatterChart(BaseChart):
                 name=name,
                 marker=marker,
                 line=line,
-                text=[row.get("text") for row in data] if "text" in data[0] else None,
+                text=text_values,
                 textposition=None if textposition == "none" else textposition,
                 textfont=textfont
             ))

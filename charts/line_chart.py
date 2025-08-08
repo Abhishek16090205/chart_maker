@@ -1,7 +1,7 @@
 from charts.base_chart import BaseChart
 import plotly.graph_objects as go
 from typing import List
-from app.schemas import Trace
+from schemas import Trace
 
 class LineChart(BaseChart):
     def __init__(self, config):
@@ -52,7 +52,6 @@ class LineChart(BaseChart):
             y = [row[trace.y_column] for row in data]
             # Use trace-specific style if available, else fall back to global style
             trace_style = getattr(trace, 'per_trace_style', None)
-            print(trace_style)
             if trace_style is not None:
                 line_color = getattr(trace_style, 'color', style.color[idx % len(style.color)])
                 line_width = getattr(trace_style, 'linewidth', style.linewidth[idx % len(style.linewidth)])
@@ -115,7 +114,6 @@ class LineChart(BaseChart):
                         getattr(ann, 'show_y_values', None) == "all" or
                         (isinstance(getattr(ann, 'show_y_values', None), list) and y_val in getattr(ann, 'show_y_values', None))
                     )
-                    print(x_match)
                     if x_match and y_match:
                         fig.add_annotation(
                             x=x_val,

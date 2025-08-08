@@ -1,7 +1,7 @@
 from charts.base_chart import BaseChart
 import plotly.graph_objects as go
 from typing import List
-from app.schemas import Trace  # Use Trace, not Dataset, for new workflow
+from schemas import Trace  # Use Trace, not Dataset, for new workflow
 
 class BarChart(BaseChart):
     def generate(self, traces: List[Trace], data: List[dict]) -> go.Figure:
@@ -11,7 +11,6 @@ class BarChart(BaseChart):
         data: List of dicts (from CSV)
         """
         fig = go.Figure()
-        print("abhishek")
 
         # Get bar style config, default to empty if not present
         style = getattr(getattr(self.config, 'style', {}), 'bar', None)
@@ -34,27 +33,16 @@ class BarChart(BaseChart):
             })()
 
         for idx, trace in enumerate(traces):
-            print(idx)
             x = [row[trace.x_column] for row in data]
             y = [row[trace.y_column] for row in data]
-            print(x)
-            print(y)
             # Get style with index wrapping
             color = style.color[idx % len(style.color)] if hasattr(style, 'color') else "#1f77b4"
-            print(color)
             opacity = style.opacity[idx % len(style.opacity)] if hasattr(style, 'opacity') else 0.8
-            print(opacity)
             border_color = style.border_color[idx % len(style.border_color)] if hasattr(style, 'border_color') else "#000000"
-            print(border_color)
             border_width = style.border_width[idx % len(style.border_width)] if hasattr(style, 'border_width') else 1
-            print(border_width)
             pattern_shape = style.pattern_shape[idx % len(style.pattern_shape)] if hasattr(style, 'pattern_shape') else None
-            print(pattern_shape)
             pattern_fgcolor = style.pattern_fgcolor[idx % len(style.pattern_fgcolor)] if hasattr(style, 'pattern_fgcolor') else None
-            print(pattern_fgcolor)
             pattern_bgcolor = style.pattern_bgcolor[idx % len(style.pattern_bgcolor)] if hasattr(style, 'pattern_bgcolor') else None
-            pattern_bgcolor
-            print(color)
             # Bar trace
             bar = go.Bar(
                 x=x if getattr(style, 'orientation', 'v') == 'v' else y,

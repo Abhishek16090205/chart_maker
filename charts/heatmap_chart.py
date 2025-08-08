@@ -1,6 +1,6 @@
 from typing import List
 import plotly.graph_objects as go
-from app.schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
+from schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
 from charts.base_chart import BaseChart
 
 class HeatmapChart(BaseChart):
@@ -41,22 +41,22 @@ class HeatmapChart(BaseChart):
 
         # If no z_column, we can use a single column for a simple heatmap (not recommended, but possible)
         if not z_col:
-            # For a simple heatmap, use x_col as x, y_col as y, and a dummy z (not recommended)
+            # For a simple heatmap, use x_col as x, y_col as y, and a dummy z (not meaningful)
             x_data = [row[x_col] for row in data]
             y_data = [row[y_col] for row in data]
             z_data = [[1] * len(data)]  # Dummy z data (not meaningful)
         else:
             # Group data by x and y to form a matrix for z
-            # This assumes your data is already in matrix form or you want to group by x and y
-            # For a true matrix, your CSV should have x, y, z columns and all combinations present
-            # For simplicity, we assume all combinations are present and z is numeric
             x_data = sorted({row[x_col] for row in data})
             y_data = sorted({row[y_col] for row in data})
+            x_index = {value: idx for idx, value in enumerate(x_data)}
+            y_index = {value: idx for idx, value in enumerate(y_data)}
             z_data = [[None for _ in x_data] for _ in y_data]
             for row in data:
-                x_idx = x_data.index(row[x_col])
-                y_idx = y_data.index(row[y_col])
-                z_data[y_idx][x_idx] = row[z_col]
+                x_idx = x_index.get(row[x_col])
+                y_idx = y_index.get(row[y_col])
+                if x_idx is not None and y_idx is not None:
+                    z_data[y_idx][x_idx] = row[z_col]
 
         # Transpose if requested
         if getattr(style, "transpose", False) and z_data:

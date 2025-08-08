@@ -1,7 +1,7 @@
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from typing import List
-from app.schemas import Trace  # Or use your subplot spec model if different
+from schemas import Trace  # Or use your subplot spec model if different
 
 class SubplotChart:
     def __init__(self, config):

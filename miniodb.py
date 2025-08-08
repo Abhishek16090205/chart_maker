@@ -2,10 +2,15 @@ import os
 from minio import Minio
 from minio.error import S3Error
 
-MINIO_API = "10.2.1.65:9003"
-MINIO_ACCESS_KEY = "admin_dev"
-MINIO_SECRET_KEY = "pass_dev"
-MINIO_SECURE = False 
+MINIO_API = os.getenv("MINIO_ENDPOINT")
+MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY")
+MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY")
+MINIO_SECURE = os.getenv("MINIO_SECURE", "false").lower() == "true"
+
+if not (MINIO_API and MINIO_ACCESS_KEY and MINIO_SECRET_KEY):
+    raise RuntimeError(
+        "Missing MinIO configuration. Please set MINIO_ENDPOINT, MINIO_ACCESS_KEY, and MINIO_SECRET_KEY environment variables."
+    )
 
 minio_client = Minio(
     MINIO_API,
@@ -14,9 +19,11 @@ minio_client = Minio(
     secure=MINIO_SECURE
 )
 
-def ensure_bucket(bucket_name=str):
+
+def ensure_bucket(bucket_name: str) -> None:
     if not minio_client.bucket_exists(bucket_name):
         minio_client.make_bucket(bucket_name)
+
 
 def get_object(bucket_name: str, object_name: str) -> bytes:
     try:
@@ -27,6 +34,7 @@ def get_object(bucket_name: str, object_name: str) -> bytes:
         return data
     except S3Error as e:
         raise Exception(f"Error getting object from MinIO: {str(e)}")
+
 
 def put_object(bucket_name: str, object_name: str, file_path: str, content_type="text/csv"):
     try:

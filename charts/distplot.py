@@ -2,7 +2,7 @@ from typing import List
 import plotly.graph_objects as go
 import numpy as np
 from scipy.stats import gaussian_kde, norm, lognorm, gamma, beta, weibull_min, uniform
-from app.schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
+from schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
 from charts.base_chart import BaseChart
 
 class DistplotChart(BaseChart):

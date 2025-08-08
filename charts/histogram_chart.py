@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import numpy as np
 from scipy.stats import gaussian_kde, norm, lognorm, gamma, beta, weibull_min, uniform
 from typing import List
-from app.schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
+from schemas import Trace  # Make sure this is your Trace model with x_column, y_column, name
 
 class HistogramChart(BaseChart):
     def __init__(self, config):

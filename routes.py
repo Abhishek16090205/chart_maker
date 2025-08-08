@@ -1,20 +1,18 @@
 from fastapi import APIRouter, HTTPException
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import UploadFile, File, Form
 from fastapi.responses import JSONResponse
 import pandas as pd
-from .schemas import ChartRequest
+from schemas import ChartRequest
 from .chart_service import create_chart
 import json
-from app.schemas import CategoricalFilter, NumericalFilter
-from app.miniodb import get_object, put_object
-from fastapi import APIRouter, Form, HTTPException, Query
-from Filters.datafilter import filter_and_store, CategoricalFilter, NumericalFilter
+from schemas import CategoricalFilter, NumericalFilter
+from miniodb import get_object, put_object
+from fastapi import Query
+from Filters.datafilter import filter_and_store
 import io
-from minio import Minio
 from pydantic import ValidationError
-from typing import Dict, List
-from .mongodb import check_mongodb_connection
-from app.miniodb import get_object
+from typing import List
+from mongodb import check_mongodb_connection
 
 
 router = APIRouter()
@@ -22,6 +20,7 @@ router = APIRouter()
 @router.get("/health/mongo")
 async def health_check():
      return await check_mongodb_connection()
+
 
 def read_file(file_bytes: bytes, object_name: str) -> pd.DataFrame:
     if object_name.lower().endswith('.csv'):

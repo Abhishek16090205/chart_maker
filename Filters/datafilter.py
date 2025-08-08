@@ -5,9 +5,9 @@ import numpy as np
 import asyncio
 from datetime import datetime
 from typing import List, Union
-from app.schemas import CategoricalFilter, NumericalFilter
-from app.miniodb import put_object, ensure_bucket
-from app.mongodb import save_filters
+from schemas import CategoricalFilter, NumericalFilter
+from miniodb import put_object, ensure_bucket
+from mongodb import save_filters
 
 FILTERED_BUCKET = "filter-data"
 TEMP_DIR = "/tmp"
